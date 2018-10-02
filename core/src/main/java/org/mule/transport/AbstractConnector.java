@@ -1293,16 +1293,6 @@ public abstract class AbstractConnector extends AbstractAnnotatedObject implemen
             // Since we're managing the creation we also need to initialise
             receiver.initialise();
             receivers.put(receiverKey, receiver);
-
-            if (isConnected())
-            {
-                receiver.connect();
-            }
-
-            if (isStarted())
-            {
-                receiver.start();
-            }
         }
         finally
         {
