@@ -6,29 +6,59 @@
  */
 package org.mule.runtime.http.api.ws;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum WebSocketCloseCode {
 
   /**
    * Indicates a normal closure, meaning whatever purpose the connection was established for has been fulfilled.
    */
-  NORMAL_CLOSURE,
+  NORMAL_CLOSURE(1000),
   /**
    * Indicates that an endpoint is "going away", such as a server going down, or a browser having navigated away from
    * a page.
    */
-  END_POINT_GOING_DOWN,
+  ENDPOINT_GOING_DOWN(1001),
   /**
    * Indicates that an endpoint is terminating the connection due to a protocol error.
    */
-  PROTOCOL_ERROR,
+  PROTOCOL_ERROR(1002),
   /**
    * Indicates that an endpoint is terminating the connection because it has received a type of data it cannot accept
    * (e.g. an endpoint that understands only text data may send this if it receives a binary message.)
    */
-  INVALID_DATA,
+  INVALID_DATA(1003),
   /**
    * indicates that an endpoint is terminating the connection because it has received a message that is too large.
    */
-  MESSAGE_TOO_LARGE;
+  MESSAGE_TOO_LARGE(1004);
+
+  private static final Map<Integer, WebSocketCloseCode> CODES = new HashMap<>(WebSocketCloseCode.values().length);
+
+  static {
+    for (WebSocketCloseCode code : WebSocketCloseCode.values()) {
+      CODES.put(code.protocolCode, code);
+    }
+  }
+
+  public static WebSocketCloseCode fromProtocolCode(int protocolCode) {
+    WebSocketCloseCode code = CODES.get(protocolCode);
+    if (code == null) {
+      throw new IllegalArgumentException("Invalid protocol code " + protocolCode);
+    }
+
+    return code;
+  }
+
+  private final int protocolCode;
+
+  WebSocketCloseCode(int protocolCode) {
+    this.protocolCode = protocolCode;
+  }
+
+  public int getProtocolCode() {
+    return protocolCode;
+  }
 
 }

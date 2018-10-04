@@ -8,6 +8,7 @@ package org.mule.runtime.http.api.server.ws;
 
 import org.mule.api.annotation.Experimental;
 import org.mule.runtime.http.api.ws.WebSocket;
+import org.mule.runtime.http.api.ws.WebSocketCloseCode;
 import org.mule.runtime.http.api.ws.WebSocketRequest;
 
 @Experimental
@@ -17,5 +18,5 @@ public interface WebSocketConnectionHandler {
 
   void onConnect(WebSocket socket, WebSocketRequest request) throws WebSocketConnectionRejectedException;
 
-  void onClose(WebSocket socket, WebSocketRequest request);
+  void onClose(WebSocket socket, WebSocketRequest request, WebSocketCloseCode closeCode, String reason);
 }
